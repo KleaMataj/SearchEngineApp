@@ -2,15 +2,13 @@ package com.index.app.Model;
 
 public class DocumentModel {
 
-    public String index;
+    public String id;
     public String content;
 
-    public String getIndex() {
-        return index;
-    }
+    public String getId() {return id;}
 
-    public void setIndex(String index) {
-        this.index = index;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public void setContent(String content) {

@@ -43,7 +43,7 @@ public class IndexingServiceUtil {
         }
     }
 
-    public static List<DocumentModel> searchIndexByContent(String queryString){
+    public static List<DocumentModel> searchIndexByContent(String queryString, int resultNumber){
         List<DocumentModel> documentResultList = new ArrayList<>();
         IndexReader indexReader = null;
 
@@ -52,8 +52,9 @@ public class IndexingServiceUtil {
             indexReader = DirectoryReader.open(AppState.getIndex());
             IndexSearcher indexSearcher = new IndexSearcher(indexReader);
 
+            System.out.print("Result numebr: " + resultNumber + "//////");
             Query query = new QueryParser("content", analyzer).parse(queryString);
-            TopDocs docs = indexSearcher.search(query, 10);
+            TopDocs docs = indexSearcher.search(query, resultNumber);
             ScoreDoc[] hits = docs.scoreDocs;
 
 
@@ -65,7 +66,7 @@ public class IndexingServiceUtil {
 
                 DocumentModel documentModel = new DocumentModel();
                 documentModel.setContent(d.get("content"));
-                documentModel.setIndex(d.get("index"));
+                documentModel.setId(d.get("id"));
 
                 documentResultList.add(documentModel);
             }
@@ -86,7 +87,7 @@ public class IndexingServiceUtil {
         try {
             for (Document document:documents) {
 
-                Term term = new Term("index", document.get("index"));
+                Term term = new Term("id", document.get("id"));
                 System.out.println("Deleting documents with field '" + term.field() + "' with text '" + term.text() + "'");
                 indexWriter.deleteDocuments(term);
 

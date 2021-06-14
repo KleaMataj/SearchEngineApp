@@ -23,7 +23,7 @@ public class IndexController {
 
     @PostMapping("/query")
     public List<DocumentModel> getIndexByQueryingContent(@RequestBody QueryModel query){
-        return indexingService.queryIndexByContent(query.content);
+        return indexingService.queryIndexByContent(query.content, query.resultNumber);
     }
 
 }
